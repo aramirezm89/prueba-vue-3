@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { useIntrumentStore } from 'stores/intruments'
+import { useIntrumentStore } from '../stores/intruments'
 
 const props = defineProps({
   instrument: {

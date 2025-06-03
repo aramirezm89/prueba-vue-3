@@ -5,7 +5,7 @@
       class="text-primary"
       active-color="primary"
       indicator-color="primary"
-
+      @update:model-value="$emit('update:modelValue', $event)"
     >
       <q-tab name="ipsa" label="IPSA" @click="handleTabChange('ipsa')" />
       <q-tab name="igpa" label="IGPA" disable />
@@ -19,17 +19,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useIntrumentStore } from 'stores/intruments'
+import { computed } from 'vue'
+import { useIntrumentStore } from '../stores/intruments'
+
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: 'ipsa'
+  }
+})
 
 const store = useIntrumentStore()
-const selectedTab = ref('ipsa')
+const emit = defineEmits(['update:modelValue'])
+
+const selectedTab = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
 
 // Cargar datos cuando cambie el tab
 const handleTabChange = (tab) => {
   if (tab === 'ipsa') {
     store.fetchIpsa()
   }
+  selectedTab.value = tab
 }
 
 // Cargar datos del IPSA inicialmente
