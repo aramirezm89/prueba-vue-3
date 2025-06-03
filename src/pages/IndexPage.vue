@@ -9,11 +9,12 @@
         </q-inner-loading>
         <TabComponent class="q-mt-md q-mr-auto" />
         <div class="chart-resume-container q-mt-md">
-          <ChartComponent />
+          <ChartComponent   />
           <SummaryComponent />
         </div>
-        <InstrumentListComponent v-if="!store.loading" />
+
       </div>
+      <InstrumentListComponent v-if="!store.loading" />
     </div>
   </q-page>
 </template>

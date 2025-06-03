@@ -90,6 +90,8 @@ const formatNumber = (value) => {
 .summary-card {
   width: 100%;
   height: 100%;
+  margin: 20px 0;
+  height: auto;
 }
 
 .data-group {

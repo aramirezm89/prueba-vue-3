@@ -22,7 +22,7 @@ export const useIntrumentStore = defineStore('counter', {
         }
 
         const jsonData = await response.json()
-        console.log('Datos JSON recibidos:', jsonData);
+
 
         if (jsonData?.data?.constituents) {
           this.constituents = jsonData.data.constituents;
