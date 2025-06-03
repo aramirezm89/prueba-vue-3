@@ -45,31 +45,28 @@ export const useIntrumentStore = defineStore('counter', {
         }
 
         const jsonData = await response.json()
-        console.log('Datos JSON recibidos:', jsonData);
 
         if (jsonData?.data) {
-          console.log("hola",jsonData.data)
-
+          const { info, price } = jsonData.data;
           const ipsa = {
-            name: jsonData.data.info.name,
-            shortName: jsonData.data.info.shortName,
-            codeInstrument: jsonData.data.info.codeInstrument,
-            lastPrice: jsonData.data.price.lastPrice,
-            performanceRelative: jsonData.data.price.performanceRelative,
-            performanceAbsolute: jsonData.data.price.performanceAbsolute,
-            pctDay: jsonData.data.price.performanceRelative,
-            pct30D: jsonData.data.price.performanceRelative,
-            pctCY: jsonData.data.price.performanceRelative,
+            marketName: info.marketName,
+            hourOpen: info.hourOpen,
+            hourClose: info.hourClose,
+            trading: info.trading,
+            maxDay: price.maxDay,
+            minDay: price.minDay,
+            accumulatedVolumeInstrument: price.accumulatedVolumeInstrument,
+            max52W: price.max52W,
+            min52W: price.min52W,
+            pctCY: price.pctRelCY
           }
           this.selectedInstrument = ipsa;
         } else {
-          throw new Error('La estructura del JSON no es la esperada o no contiene constituyentes.')
+          throw new Error('La estructura del JSON no es la esperada')
         }
-
-        console.log("hola",this.selectedInstrument)
       } catch (error) {
-        console.error('Error al cargar los constituyentes:', error)
-        this.selectedInstrument = {} // Opcional: resetear en caso de error
+        console.error('Error al cargar datos del IPSA:', error)
+        this.selectedInstrument = {}
       } finally {
         this.loading = false
       }

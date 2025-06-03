@@ -1,14 +1,17 @@
 <template>
   <q-page class="hero">
     <div class="container">
-
       <SearchBarComponent @search="handleSearch"/>
       <HeaderComponent style="margin-top: 20px;" />
       <div class="content">
         <q-inner-loading :showing="store.loading">
           <q-spinner-dots size="50px" color="primary" />
         </q-inner-loading>
-        <TabComponent class="q-mt-md q-mrad-auto" />
+        <TabComponent class="q-mt-md q-mr-auto" />
+        <div class="chart-resume-container q-mt-md">
+          <ChartComponent />
+          <SummaryComponent />
+        </div>
         <InstrumentListComponent v-if="!store.loading" />
       </div>
     </div>
@@ -22,6 +25,8 @@ import SearchBarComponent from 'components/SearchBar.vue'
 import HeaderComponent from 'components/HeaderComponent.vue'
 import InstrumentListComponent from 'components/InstrumentListComponent.vue'
 import TabComponent from 'components/TabComponent.vue'
+import ChartComponent from 'components/ChartComponent.vue'
+import SummaryComponent from 'components/SummaryComponent.vue'
 
 const store = useIntrumentStore()
 
@@ -66,6 +71,14 @@ const handleSearch = (value) => {
   flex-direction: column;
   justify-content: flex-start;
   align-content: center;
+}
 
+
+
+.chart-resume-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
 }
 </style>
