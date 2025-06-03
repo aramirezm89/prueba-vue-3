@@ -69,21 +69,27 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useIntrumentStore } from '../stores/intruments'
 
 const store = useIntrumentStore()
 const { selectedInstrument } = storeToRefs(store)
 
+onMounted(async () => {
+  await store.fetchIpsa()
+})
+
 const formatNumber = (value) => {
-  if (!value && value !== 0) return '-'
-  return value.toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  if (!value) return '0'
+  return Number(value).toFixed(2)
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .summary-card {
   width: 100%;
+  height: 100%;
 }
 
 .data-group {
@@ -96,16 +102,11 @@ const formatNumber = (value) => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
 
-  .data-label {
-    font-size: 0.875rem;
-    color: #666;
-  }
-
-  span {
-    font-size: 1rem;
-    font-weight: 500;
-  }
+.data-label {
+  font-size: 0.875rem;
+  color: #666;
 }
 
 .text-positive {

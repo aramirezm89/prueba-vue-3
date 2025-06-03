@@ -48,19 +48,25 @@ export const useIntrumentStore = defineStore('counter', {
 
         if (jsonData?.data) {
           const { info, price } = jsonData.data;
-          const ipsa = {
-            marketName: info.marketName,
-            hourOpen: info.hourOpen,
-            hourClose: info.hourClose,
-            trading: info.trading,
+          this.selectedInstrument = {
+            name: 'IPSA',
+            shortName: 'IPSA',
+            codeInstrument: 'IPSA',
+            lastPrice: price.lastPrice,
+            performanceRelative: price.performanceRelative,
+            performanceAbsolute: price.performanceAbsolute,
+            pct30D: price.pct30D,
+            pctCY: price.pctRelCY,
             maxDay: price.maxDay,
             minDay: price.minDay,
             accumulatedVolumeInstrument: price.accumulatedVolumeInstrument,
             max52W: price.max52W,
             min52W: price.min52W,
-            pctCY: price.pctRelCY
-          }
-          this.selectedInstrument = ipsa;
+            marketName: info.marketName,
+            hourOpen: info.hourOpen,
+            hourClose: info.hourClose,
+            trading: info.trading
+          };
         } else {
           throw new Error('La estructura del JSON no es la esperada')
         }
