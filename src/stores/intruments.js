@@ -90,9 +90,54 @@ export const useIntrumentStore = defineStore('counter', {
         constituent.codeInstrument.toLowerCase().includes(query.toLowerCase())
       )
     },
-    selectInstrument(instrument) {
-      console.log('Store action: selectInstrument', instrument)
-      this.selectedInstrument = instrument
+    async selectInstrument(instrument) {
+      try {
+        const response = await fetch(`/json-VueJS/resumen/${instrument.codeInstrument}.json`);
+        if (!response.ok) {
+          throw new Error(`Error al cargar los datos: ${response.statusText}`);
+        }
+
+        const jsonData = await response.json();
+        if (jsonData?.data) {
+          const { info, price } = jsonData.data;
+          this.selectedInstrument = {
+            name: instrument.name,
+            shortName: instrument.shortName,
+            codeInstrument: instrument.codeInstrument,
+            lastPrice: price.lastPrice,
+            performanceRelative: price.performanceRelative,
+            performanceAbsolute: price.performanceAbsolute,
+            pct30D: price.pct30D,
+            pctCY: price.pctRelCY,
+            maxDay: price.maxDay,
+            minDay: price.minDay,
+            accumulatedVolumeInstrument: price.accumulatedVolumeInstrument,
+            max52W: price.max52W,
+            min52W: price.min52W,
+            marketName: info.marketName,
+            hourOpen: info.hourOpen,
+            hourClose: info.hourClose,
+            trading: info.trading
+          };
+        } else {
+          throw new Error('La estructura del JSON no es la esperada');
+        }
+      } catch (error) {
+        console.error('Error al cargar datos del instrumento:', error);
+        // En caso de error, mantener los datos básicos del instrumento
+        this.selectedInstrument = {
+          ...instrument,
+          maxDay: 0,
+          minDay: 0,
+          accumulatedVolumeInstrument: 0,
+          max52W: 0,
+          min52W: 0,
+          marketName: 'No disponible',
+          hourOpen: '-',
+          hourClose: '-',
+          trading: false
+        };
+      }
     }
   }
 })
