@@ -7,7 +7,7 @@
     </q-item-section>
     <q-item-section style="display: flex; flex-direction: column; gap: 5px">
       <q-item-label>Instrument last price</q-item-label>
-      <q-item-label>{{ Number(instrument.lastPrice).toFixed(2) }}</q-item-label>
+      <q-item-label :class="{'text-positive': instrument.lastPrice > 0, 'text-negative': instrument.lastPrice < 0}">{{ Number(instrument.lastPrice).toFixed(2) }}</q-item-label>
       <q-item-label>Instrument pctDay</q-item-label>
       <q-item-label :class="{'text-positive': instrument.pctDay > 0, 'text-negative': instrument.pctDay < 0}">
         {{ Number(instrument.pctDay).toFixed(2) }}%
@@ -15,11 +15,9 @@
     </q-item-section>
     <q-item-section style="display: flex; flex-direction: column; gap: 5px">
       <q-item-label>Instrument pct30D</q-item-label>
-      <q-item-label>{{ Number(instrument.pct30D).toFixed(2) }}%</q-item-label>
+      <q-item-label :class="{'text-positive': instrument.pct30D > 0, 'text-negative': instrument.pct30D < 0}">{{ Number(instrument.pct30D).toFixed(2) }}%</q-item-label>
       <q-item-label>Instrument pctCY</q-item-label>
-      <q-item-label :class="{'text-positive': instrument.pctCY > 0, 'text-negative': instrument.pctCY < 0}">
-        {{ Number(instrument.pctCY).toFixed(2) }}%
-      </q-item-label>
+      <q-item-label :class="{'text-positive': instrument.pctCY > 0, 'text-negative': instrument.pctCY < 0}">{{ Number(instrument.pctCY).toFixed(2) }}%</q-item-label>
     </q-item-section>
   </q-item>
 </div>

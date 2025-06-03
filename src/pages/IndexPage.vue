@@ -1,13 +1,16 @@
 <template>
   <q-page class="hero">
-    <SearchBarComponent @search="handleSearch" class="container"/>
-    <HeaderComponent class="container" style="margin-top: 20px;" />
-    <div class="container content">
-      <q-inner-loading :showing="store.loading">
-        <q-spinner-dots size="50px" color="primary" />
-      </q-inner-loading>
+    <div class="container">
 
-      <InstrumentListComponent v-if="!store.loading" />
+      <SearchBarComponent @search="handleSearch"/>
+      <HeaderComponent style="margin-top: 20px;" />
+      <div class="content">
+        <q-inner-loading :showing="store.loading">
+          <q-spinner-dots size="50px" color="primary" />
+        </q-inner-loading>
+        <TabComponent class="q-mt-md q-mrad-auto" />
+        <InstrumentListComponent v-if="!store.loading" />
+      </div>
     </div>
   </q-page>
 </template>
@@ -18,16 +21,19 @@ import { useIntrumentStore } from 'stores/intruments'
 import SearchBarComponent from 'components/SearchBar.vue'
 import HeaderComponent from 'components/HeaderComponent.vue'
 import InstrumentListComponent from 'components/InstrumentListComponent.vue'
+import TabComponent from 'components/TabComponent.vue'
 
 const store = useIntrumentStore()
 
 // Cargar los datos cuando el componente se monte
 onMounted(async() => {
   await store.fetchConstituents()
+  store.fetchIpsa()
 })
 
 const handleSearch = (value) => {
   store.filterConstituents(value)
+
 }
 </script>
 
@@ -56,5 +62,10 @@ const handleSearch = (value) => {
 
 .content {
   padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+
 }
 </style>

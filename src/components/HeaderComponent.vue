@@ -4,19 +4,19 @@
     <div class="values">
       <div class="value-item">
         <label>Valor actual</label>
-        <span>{{ selectedInstrument.lastPrice }}</span>
+        <span>{{ selectedInstrument.lastPrice.toFixed(2) }}</span>
       </div>
       <div class="value-item">
         <label>Variacion porcentual día</label>
-        <span>{{ selectedInstrument.performanceRelative }}</span>
+        <span>{{ selectedInstrument.performanceRelative.toFixed(2) }}</span>
       </div>
       <div class="value-item">
         <label>Variacion porcentual 30 días</label>
-        <span>{{ selectedInstrument.pct30D }}</span>
+        <span>{{ selectedInstrument.pct30D.toFixed(2) }}</span>
       </div>
       <div class="value-item">
         <label>Variacion porcentual año</label>
-        <span>{{ selectedInstrument.pctCY }}</span>
+        <span>{{ selectedInstrument.pctCY.toFixed(2) }}</span>
       </div>
     </div>
   </div>

@@ -14,19 +14,19 @@ export const useIntrumentStore = defineStore('counter', {
 
   actions: {
     async fetchConstituents() {
-      this.loading = true // Establecer loading a true al inicio
+      this.loading = true;
       try {
-        const response = await fetch('/json-VueJS/constituyentes/constituensList.json') // Agregar await
+        const response = await fetch('/json-VueJS/constituyentes/constituensList.json');
         if (!response.ok) {
-          throw new Error(`Error al cargar los datos: ${response.statusText}`)
+          throw new Error(`Error al cargar los datos: ${response.statusText}`);
         }
 
         const jsonData = await response.json()
-        console.log('Datos JSON recibidos:', jsonData)
+        console.log('Datos JSON recibidos:', jsonData);
 
         if (jsonData?.data?.constituents) {
-          this.constituents = jsonData.data.constituents
-          this.allConstituents = jsonData.data.constituents
+          this.constituents = jsonData.data.constituents;
+          this.allConstituents = jsonData.data.constituents;
         } else {
           throw new Error('La estructura del JSON no es la esperada o no contiene constituyentes.')
         }
@@ -36,6 +36,44 @@ export const useIntrumentStore = defineStore('counter', {
       } finally {
         this.loading = false
       }
+    },
+    async fetchIpsa(){
+      try {
+        const response = await fetch('/json-VueJS/resumen/IPSA.json');
+        if (!response.ok) {
+          throw new Error(`Error al cargar los datos: ${response.statusText}`);
+        }
+
+        const jsonData = await response.json()
+        console.log('Datos JSON recibidos:', jsonData);
+
+        if (jsonData?.data) {
+          console.log("hola",jsonData.data)
+
+          const ipsa = {
+            name: jsonData.data.info.name,
+            shortName: jsonData.data.info.shortName,
+            codeInstrument: jsonData.data.info.codeInstrument,
+            lastPrice: jsonData.data.price.lastPrice,
+            performanceRelative: jsonData.data.price.performanceRelative,
+            performanceAbsolute: jsonData.data.price.performanceAbsolute,
+            pctDay: jsonData.data.price.performanceRelative,
+            pct30D: jsonData.data.price.performanceRelative,
+            pctCY: jsonData.data.price.performanceRelative,
+          }
+          this.selectedInstrument = ipsa;
+        } else {
+          throw new Error('La estructura del JSON no es la esperada o no contiene constituyentes.')
+        }
+
+        console.log("hola",this.selectedInstrument)
+      } catch (error) {
+        console.error('Error al cargar los constituyentes:', error)
+        this.selectedInstrument = {} // Opcional: resetear en caso de error
+      } finally {
+        this.loading = false
+      }
+
     },
 
     filterConstituents(query) {
